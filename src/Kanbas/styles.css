@@ -1,0 +1,96 @@
+body   {  margin: 0;  padding: 0;  }
+body * {  font-family: Arial, Helvetica, sans-serif;  }
+
+@media (min-width: 768px) {
+    #wd-kanbas .wd-main-content-offset {
+        padding-left: 140px !important;
+    }
+
+}
+.list-group.wd > .list-group-item.active {
+    color: black;
+    background-color: white;
+    border-left: 3px solid black !important;
+}
+.btn-secondary {
+    --bs-btn-color: #000 !important;
+    --bs-btn-bg: #c7cdd1 !important;
+    --bs-btn-border-color: #c7cdd1 !important;
+    --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+    --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+    --bs-list-group-border-color: gray;
+}
+.wd-lesson {
+    border-left: 3px solid green !important;
+}
+.green-icon {
+    color: green;
+}
+.wd-rounded-corners-all-around {
+    border-radius: 50px;
+}
+.wd-flex-row-container{
+    display:flex;
+    flex-direction:row;
+}
+.wd-assignment-list-item {
+    border-left: 3px solid green !important;
+}
+.wd-assignment-link{
+    text-decoration: none;
+    font-weight: bold;
+    color: inherit;
+}
+#wd-signin-navigation {
+    display: block;
+    text-align: center;
+    background-color: white;
+    color: black;
+    border-left: 3px solid black;
+    padding: 10px;
+    text-decoration: none;
+
+}
+#wd-signup-navigation {
+    display: block;
+    text-align: center;
+    background-color: white;
+    color: #dc3545;
+    border-left: 3px white;
+    padding: 10px;
+    text-decoration: none;
+
+}
+#wd-profile-navigation {
+    display: block;
+    text-align: center;
+    background-color: white;
+    color: #dc3545;
+    border-left: 3px white;
+    padding: 10px;
+    text-decoration: none;
+
+}
+.styled-textarea {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: white;
+    color: black;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.wd-float-right {
+    float:right;
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
