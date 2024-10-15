@@ -319,7 +319,7 @@ export default function Lab1() {
 
                 <h4>GitHub</h4>
                 Please <a id="wd-github"
-                   href="https://github.com/christinapiggy/kanbas-react-web-app">click
+                   href="https://github.com/xtinazhu/kanbas-react-web-app">click
                     here </a>
                 to get code repository on GitHub<br/>
             </div>
