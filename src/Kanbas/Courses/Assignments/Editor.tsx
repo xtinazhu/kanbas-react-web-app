@@ -1,23 +1,37 @@
-import {Link} from "react-router-dom";
 import {FaCalendarAlt} from "react-icons/fa";
+import React from "react";
+import {useParams, useNavigate} from "react-router-dom";
+import * as db from "../../Database";
 
 export default function AssignmentEditor() {
-    return (
+    const { cid, aid } = useParams();
+    const navigate = useNavigate();
+    const assignments = db.assignments.find((assignment)=> assignment._id === aid);
+    // If the assignment is not found, return null to render nothing
+    if (!assignments) {
+        return null;
+    }
 
+    return (
         <div id="wd-assignments-editor" className="me-4">
             <form>
                 <div className="form-group">
-                    <label htmlFor="wd-name" className="mb-3"> Assignment
-                        Name</label>
+                    <label htmlFor="wd-name" className="mb-3">Assignment Name</label>
                     <input id="wd-name" type="text"
                            className="form-control mb-3"
-                           value="A1 - ENV + HTML"/>
+                           defaultValue={assignments.title}/>
                     <div
                         id="wd-description"
                         className="form-control mb-3 styled-textarea"
                         contentEditable="true"
                     >
+
                         <p>The assignment is <span className="text-danger">available online</span>
+                        </p>
+                        <p style={{whiteSpace: 'pre-line'}}>
+                            {assignments.description}
+                        </p>
+                        {/*
                         </p>
                         <p>Submit a link to the landing page of your Web
                             application running on.</p>
@@ -33,8 +47,8 @@ export default function AssignmentEditor() {
                         <p>The application should include a link to navigate
                             back to the landing page.
                         </p>
+                        */}
                     </div>
-
                 </div>
 
                 <div className="form-group mb-3 ">
@@ -52,7 +66,7 @@ export default function AssignmentEditor() {
                                 type="number"
                                 className="form-control"
                                 id="points"
-                                value="100"
+                                defaultValue={assignments.points}
                             />
                         </div>
                     </div>
@@ -195,7 +209,7 @@ export default function AssignmentEditor() {
                                     type="datetime-local"
                                     id="due-date"
                                     className="form-control"
-                                    value="2024-05-13T23:59"
+                                    defaultValue={assignments.due_date}
                                 />
                                 <span className="input-group-text bg-light">
                                     <FaCalendarAlt/>
@@ -216,7 +230,7 @@ export default function AssignmentEditor() {
                                             type="datetime-local"
                                             id="available-from"
                                             className="form-control"
-                                            value="2024-05-06T00:00"
+                                            defaultValue={assignments.available_date}
                                         />
                                         <span
                                             className="input-group-text bg-light">
@@ -233,7 +247,8 @@ export default function AssignmentEditor() {
                                             type="datetime-local"
                                             id="until"
                                             className="form-control"
-                                            value="2024-05-20T23:59"
+                                            defaultValue= {assignments.until_date}
+
                                         />
                                         <span
                                             className="input-group-text bg-light">
@@ -247,16 +262,26 @@ export default function AssignmentEditor() {
             </form>
 
             <hr/>
-            <div className="d-flex justify-content-end">
-                <button id="wd-cancel-button"
-                        className="btn btn-light me-2 mb-2">
+
+            <div className="d-flex justify-content-end mt-4">
+                <button
+                    id="wd-cancel-button"
+                    className="btn btn-light me-2"
+                    onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments`)}
+                >
                     Cancel
                 </button>
-                <button id="wd-save-button" className="btn btn-danger mb-2">
+                <button
+                    id="wd-save-button"
+                    className="btn btn-danger"
+                    onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments`)}
+                >
                     Save
                 </button>
+
             </div>
 
         </div>
+
     );
 }
