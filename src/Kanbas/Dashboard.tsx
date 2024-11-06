@@ -31,11 +31,11 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
     };
 
     // Filter courses based on enrollment status for students
-    const filteredCourses = showAllCourses
-        ? courses
-        : courses.filter((course) =>
+    const filteredCourses = currentUser.role === "STUDENT"
+        ? (showAllCourses ? courses : courses.filter((course) =>
             userEnrollments.some((enrollment: any) => enrollment.course === course._id)
-        );
+        ))
+        : courses;
 
     useEffect(() => {
         // Load enrollments from local storage on initial load
@@ -95,6 +95,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
 
             <h2 id="wd-dashboard-published">{showAllCourses ? "All Courses" : "Enrolled Courses"} ({filteredCourses.length})</h2>
             <div className="row row-cols-1 row-cols-md-5 g-4">
+
                 {filteredCourses.map((course) => {
                     const isEnrolled = userEnrollments.some((enrollment: any) => enrollment.course === course._id);
 
