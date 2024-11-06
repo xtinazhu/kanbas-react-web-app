@@ -32,11 +32,24 @@ import Square from "./Square";
 import Highlight from "./Highlight";
 import AddPathParameters from "./AddPathParameters";
 import PathParameters from "./PathParameters";
+import { useSelector } from "react-redux";
+
 export default function Lab3() {
+    const { todos } = useSelector((state: any) => state.todosReducer);
     console.log('Hello World!');
     return (
         <div id="wd-lab3">
             <h3>Lab 3</h3>
+
+            <ul className="list-group">
+                {todos.map((todo: any) => (
+                    <li className="list-group-item" key={todo.id}>
+                        {todo.title}
+                    </li>
+                ))}
+            </ul>
+            <hr/>
+
             <h2>JavaScript</h2>
             <VariablesAndConstants/>
             <VariableTypes/>
@@ -45,7 +58,7 @@ export default function Lab3() {
             <TernaryOperator/>
             <ConditionalOutputIfEsle/>
             <ConditionalOutputInline/>
-            <LegacyFunctions />
+            <LegacyFunctions/>
             <ArrowFunctions/>
             <ImpliedReturn/>
             <TemplateLiterals/>
@@ -53,28 +66,30 @@ export default function Lab3() {
             <ArrayIndexAndLength/>
             <AddingAndRemovingToFromArrays/>
             <ForLoops/>
-                <MapFunction/>
-                <FindFunction/>
+            <MapFunction/>
+            <FindFunction/>
             <FindIndex/>
             <FilterFunction/>
             <JsonStringify/>
             <House/>
             <TodoItem/>
             <TodoList/>
-                <Spreading/>
-                <Destructing/>
+            <Spreading/>
+            <Destructing/>
             <FunctionDestructing/>
             <DestructingImports/>
             <Classes/>
             <Styles/>
-            <Add a={3} b={4} />
+            <Add a={3} b={4}/>
             <h4>Square of 4</h4>
             <Square>4</Square>
             <hr/>
-                <Highlight>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
-                        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
-                </Highlight>
+            <Highlight>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo
+                minus cum, saepe totam
+                vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi
+                maiores, provident voluptates.
+            </Highlight>
             <PathParameters/>
             <AddPathParameters/>
 

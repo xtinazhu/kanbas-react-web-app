@@ -6,13 +6,21 @@ import TitleControlButtons from "./TitleControlButtons";
 import { MdOutlineAssignment } from "react-icons/md";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { IoEllipsisVertical } from "react-icons/io5";
-import {useParams} from "react-router";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch} from "react-redux";
+import{addAssignment,deleteAssignment, updateAssignment} from "./reducer";
 import * as db from "../../Database";
-import {Link} from "react-router-dom";
+import {FaTrash} from "react-icons/fa";
 
 export default function Assignments() {
     const { cid } = useParams();
-    const assignments = db.assignments.filter(assignment => assignment.course === cid);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {assignments} = useSelector((state: any) => state.assignmentReducer);
+    const userRole = useSelector((state: any) => state.accountReducer.currentUser?.role);
+    const isFaculty = userRole === "FACULTY"; // Check if user has FACULTY role
+
+    {/*const assignments = db.assignments.filter(assignment => assignment.course === cid);*/}
 
     return (
         <div>
@@ -27,7 +35,7 @@ export default function Assignments() {
                         <TitleControlButtons/>
                     </div>
 
-                    {assignments.map(assignment => (
+                    {assignments.map((assignment:any) => (
                         <li id={assignment._id}
                             className="wd-assignment-list-item list-group-item p-3 ps-1">
                             <div className="d-flex align-items-center">
@@ -69,70 +77,19 @@ export default function Assignments() {
                                     <div className="d-flex float-end">
                                         <GreenCheckmark />
                                         <IoEllipsisVertical className="fs-4 text-muted" />
+                                        {isFaculty && (
+                                        <FaTrash className="text-danger me-2 mb-1"
+                                                 onClick={() => {
+                                                     if (window.confirm("Are you sure you want to delete this assignment?")) {
+                                                         dispatch(deleteAssignment(assignment._id));
+                                                     }
+                                                 }}/>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </li>
-
                     ))}
-
-                    {/*
-                        <li className="wd-assignment-list-item list-group-item p-3 ps-1">
-                        <div className="d-flex align-items-center">
-                            <div
-                                className="d-flex align-items-center border-start ps-3 mb-4"
-                                style={{borderWidth: "4px"}}>
-                                <div className="d-flex align-items-center me-3">
-                                    <BsGripVertical className="me-2 fs-4"/>
-                                    <MdOutlineAssignment
-                                        className="fs-4 text-success"/>
-                                </div>
-
-                                <div className="flex-grow-1">
-
-                                    <a className="wd-assignment-link fs-5 mb-1"
-                                       href="#/Kanbas/Courses/1234/Assignments/123">
-                                        A1
-                                    </a>
-
-                                    <div className="d-flex flex-wrap">
-                                        <div
-                                            className="text-danger me-2">Multiple
-                                            Modules
-                                        </div>
-                                        <div className="text-muted me-2">|</div>
-                                        <div
-                                            className="fw-bold text-muted me-2">Not
-                                            available until
-                                        </div>
-                                        <div className="text-muted me-2">May 6
-                                            at
-                                            12:00am
-                                        </div>
-                                        <div className="text-muted me-2">|</div>
-                                        <div
-                                            className="fw-bold text-muted me-2">Due
-                                        </div>
-                                        <div className="text-muted me-2">May 13
-                                            at
-                                            11:59pm
-                                        </div>
-                                        <div className="text-muted me-2">|</div>
-                                        <div className="text-muted">100 pts
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="d-flex float-end">
-                                <GreenCheckmark/>
-                                    <IoEllipsisVertical
-                                        className="fs-4 text-muted"/>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-*/}
 
                 </li>
             </ul>
