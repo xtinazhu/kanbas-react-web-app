@@ -7,9 +7,13 @@ export default function AccountNavigation() {
     const { pathname } = useLocation();
 
     return (
-        <div id="wd-account-navigation">
-            <Link id="wd-signin-navigation" to={`/Kanbas/Account/Signin`} className="list-group-item " > Signin  </Link>
-            <Link id="wd-signup-navigation" to={`/Kanbas/Account/Signup`} className="list-group-item "  > Signup  </Link>
-            <Link id="wd-profile-navigation" to={`/Kanbas/Account/Profile`} className="list-group-item "  > Profile </Link>
+        <div id="wd-account-navigation"
+             className="wd list-group fs-5 rounded-0">
+            {links.map((link) => (
+                <Link key={link} to={`/Kanbas/Account/${link}`}
+                      className={`list-group-item border border-0 ${pathname.includes(link) ? "active text-dark" : "text-danger"}`}>
+                    {link} </Link>
+            ))}
         </div>
-    );}
+    );
+}
