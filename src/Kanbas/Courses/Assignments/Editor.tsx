@@ -3,6 +3,7 @@ import {useParams, useNavigate} from "react-router-dom";
 import * as db from "../../Database";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAssignment, editAssignment, addAssignment } from "./reducer";
+import axios from "axios";
 
 
 export default function AssignmentEditor() {
@@ -40,11 +41,14 @@ export default function AssignmentEditor() {
     };
 
     // Save assignment data to Redux
-    const handleSave = () => {
+    const handleSave = async () => {
+        let savedAssignment;
         if (aid) {
-            dispatch(updateAssignment({ ...formData, _id: aid })); // Update existing assignment
+            savedAssignment = await axios.put(`/api/assignments/${aid}`, formData);
+            dispatch(updateAssignment(savedAssignment.data)); // Update existing assignment
         } else {
-            dispatch(addAssignment({ ...formData, course: cid })); // Add new assignment if `aid` is not defined
+            savedAssignment = await axios.post(`/api/assignments`, formData);
+            dispatch(addAssignment(savedAssignment.data)); // Add new assignment if `aid` is not defined
         }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };

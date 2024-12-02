@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as db from "./Database";
 import { Link } from "react-router-dom";
 import { addEnrollment, removeEnrollment } from "./Database/enrollmentReducer"
 
@@ -9,6 +8,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
     courses: any[]; course: any; setCourse: (course: any) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
     updateCourse: () => void; }) {
+
 
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -96,7 +96,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
             <h2 id="wd-dashboard-published">{showAllCourses ? "All Courses" : "Enrolled Courses"} ({filteredCourses.length})</h2>
             <div className="row row-cols-1 row-cols-md-5 g-4">
 
-                {filteredCourses.map((course) => {
+                {courses.map((course) => {
                     const isEnrolled = userEnrollments.some((enrollment: any) => enrollment.course === course._id);
 
 

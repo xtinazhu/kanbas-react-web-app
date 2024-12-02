@@ -1,5 +1,4 @@
 import AssignmentControls from "./AssignmentControls";
-import React from "react";
 import {BsGripVertical} from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import TitleControlButtons from "./TitleControlButtons";
@@ -8,17 +7,61 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch} from "react-redux";
-import{addAssignment,deleteAssignment, updateAssignment} from "./reducer";
+import{setAssignment, addAssignment,deleteAssignment, updateAssignment} from "./reducer";
 import * as db from "../../Database";
 import {FaTrash} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import * as courseClient from "../client";
+import * as assignmentsClient from "./client";
+
 
 export default function Assignments() {
     const { cid } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const[assignmentName, setAssignmentName] = useState("");
     const {assignments} = useSelector((state: any) => state.assignmentReducer);
     const userRole = useSelector((state: any) => state.accountReducer.currentUser?.role);
     const isFaculty = userRole === "FACULTY"; // Check if user has FACULTY role
+
+
+
+    const fetchAssignments = async () => {
+        if (!cid) return;
+        const data = await assignmentsClient.findAssignmentsForCourse(cid);
+        dispatch(setAssignment(data));
+    };
+
+    const createAssignmentForCourse = async () => {
+        if (!cid) return;
+        const newAssignment = {
+            title: assignmentName,
+            course: cid,
+            points: 100,
+            due_date: new Date().toISOString(),
+            available_date: new Date().toISOString(),
+        };
+        const assignment = await assignmentsClient.createAssignmentForCourse(cid, newAssignment);
+        dispatch(addAssignment(assignment));
+        setAssignmentName("");
+    };
+
+    const removeAssignment = async (assignmentId: string) => {
+        if (window.confirm("Are you sure you want to delete this assignment?")) {
+            await assignmentsClient.deleteAssignment(assignmentId);
+            dispatch(deleteAssignment(assignmentId));
+        }
+    };
+    const saveAssignment = async (assignment: any) => {
+        await assignmentsClient.updateAssignment(assignment);
+        dispatch(updateAssignment(assignment));
+    };
+
+    useEffect(() => {
+        fetchAssignments();
+    }, [cid]);
+
+
 
     {/*const assignments = db.assignments.filter(assignment => assignment.course === cid);*/}
 
@@ -78,12 +121,10 @@ export default function Assignments() {
                                         <GreenCheckmark />
                                         <IoEllipsisVertical className="fs-4 text-muted" />
                                         {isFaculty && (
-                                        <FaTrash className="text-danger me-2 mb-1"
-                                                 onClick={() => {
-                                                     if (window.confirm("Are you sure you want to delete this assignment?")) {
-                                                         dispatch(deleteAssignment(assignment._id));
-                                                     }
-                                                 }}/>
+                                            <FaTrash
+                                                className="text-danger me-2 mb-1"
+                                                onClick={() => removeAssignment(assignment._id)}
+                                            />
                                         )}
                                     </div>
                                 </div>
