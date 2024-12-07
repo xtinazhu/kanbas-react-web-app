@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addEnrollment, removeEnrollment } from "./Database/enrollmentReducer"
+import * as courseClient from "./Courses/client"
 
 export default function Dashboard({ courses, course, setCourse, addNewCourse,
                                       deleteCourse, updateCourse }: {
@@ -96,7 +97,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
             <h2 id="wd-dashboard-published">{showAllCourses ? "All Courses" : "Enrolled Courses"} ({filteredCourses.length})</h2>
             <div className="row row-cols-1 row-cols-md-5 g-4">
 
-                {courses.map((course) => {
+                {filteredCourses.map((course) => {
                     const isEnrolled = userEnrollments.some((enrollment: any) => enrollment.course === course._id);
 
 

@@ -1,11 +1,10 @@
-import {BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import KanbasNavigation from "./Navigation";
 import Courses from "./Courses";
 import "./styles.css";
 import {useEffect, useState} from "react";
-import store from "./store";
-import {Provider, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import Account from "./Account";
 import Session from "./Account/Session";

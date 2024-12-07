@@ -4,6 +4,7 @@ import Profile from "./Profile";
 import Signup from "./Signup";
 import Signin from "./Signin";
 import { useSelector } from "react-redux";
+import Users from "./Users";
 
 
 export default function Account() {
@@ -24,6 +25,8 @@ export default function Account() {
                             <Route path="/Signin" element={<Signin/>}/>
                             <Route path="/Signup" element={<Signup/>}/>
                             <Route path="/Profile" element={<Profile/>}/>
+                            <Route path="/Users" element={<Users />} />
+                            <Route path="/Users/:uid" element={<Users />} />
                         </Routes>
                     </td>
                 </tr>
