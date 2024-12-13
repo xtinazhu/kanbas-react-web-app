@@ -52,8 +52,13 @@ export const deleteCourse = async (id: string) => {
 };
 
 export const fetchAllCourses = async () => {
-    const response = await axiosWithCredentials.get(COURSES_API);
-    return response.data;
+    try {
+        const response = await axios.get(COURSES_API, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all courses:", error);
+        throw error; // Re-throw the error after logging
+    }
 };
 
 //quiz

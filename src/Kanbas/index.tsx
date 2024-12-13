@@ -19,8 +19,8 @@ export default function Kanbas() {
 
     const findCoursesForUser = async () => {
         try {
-            const courses = await userClient.findCoursesForUser(currentUser._id);
-            setCourses(courses);
+            const userCourses = await userClient.findCoursesForUser(currentUser._id);
+            setCourses(userCourses);
         } catch (error) {
             console.error(error);
         }
@@ -102,7 +102,7 @@ export default function Kanbas() {
         );};
 
  return(
-    // <Session>
+     //<Session>
         <div id="wd-kanbas">
             <KanbasNavigation/>
             <div className="wd-main-content-offset p-3">
@@ -112,26 +112,27 @@ export default function Kanbas() {
                     <Route path="/Account/*" element={<Account/>}/>
                     <Route path="/Dashboard" element={
                         <ProtectedRoute>
-                            <Dashboard courses={courses}
-                                                    course={course}
-                                                    setCourse={setCourse}
-                                                    addNewCourse={addNewCourse}
-                                                    deleteCourse={deleteCourse}
-                                                    updateCourse={updateCourse}
-                                                    enrolling={enrolling}
-                                                    setEnrolling={setEnrolling}
-                                                    updateEnrollment={updateEnrollment}/>
+                            <Dashboard  courses={courses}
+                                        course={course}
+                                        setCourse={setCourse}
+                                        addNewCourse={addNewCourse}
+                                        deleteCourse={deleteCourse}
+                                        updateCourse={updateCourse}
+                                        enrolling={enrolling}
+                                        setEnrolling={setEnrolling}
+                                        updateEnrollment={updateEnrollment}/>
 
                         </ProtectedRoute>}/>
                     <Route path="Courses/:cid/*"
-                           element={<ProtectedRoute><Courses courses={courses}/>
+                           element={<ProtectedRoute>
+                               <Courses courses={courses}/>
                            </ProtectedRoute>}/>
                     <Route path="Calendar" element={<h1>Calendar</h1>}/>
                     <Route path="Inbox" element={<h1>Inbox</h1>}/>
                 </Routes>
             </div>
         </div>
-   //  </Session>
+    // </Session>
  );
 }
 

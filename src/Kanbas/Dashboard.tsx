@@ -64,7 +64,6 @@ export default function Dashboard({courses, course, setCourse, addNewCourse,
 
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard
-
                 <button onClick={() =>
                     setEnrolling(!enrolling)}
                 className="float-end btn btn-primary">
@@ -73,8 +72,8 @@ export default function Dashboard({courses, course, setCourse, addNewCourse,
 
             </h1>
             <hr/>
-            <ProtectedContent>
 
+            <ProtectedContent>
                 <div>
                     <h5>New Course
                         <button
@@ -103,7 +102,8 @@ export default function Dashboard({courses, course, setCourse, addNewCourse,
                         onChange={(e) => setCourse({ ...course, description: e.target.value })}
                     />
                 </div>
-            )
+                <br/>
+
 
             </ProtectedContent>
 

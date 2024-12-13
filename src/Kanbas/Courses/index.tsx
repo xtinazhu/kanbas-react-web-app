@@ -7,6 +7,7 @@ import AssignmentEditor from "./Assignments/Editor";
 import React, {useState} from "react";
 import {FaAlignJustify} from "react-icons/fa";
 import PeopleTable from "./People/Table";
+
 //import Quizzes from "./Quizzes";
 //import QuizEditor from "./Quizzes/QuizEditor";
 //import QuizDetail from "./Quizzes/QuizDetail";
