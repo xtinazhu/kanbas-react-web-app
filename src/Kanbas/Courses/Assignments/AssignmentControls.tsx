@@ -11,7 +11,7 @@ import * as assignmentClient from "./client"
 export default function AssignmentControls() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { cid } = useParams<{ cid: string }>(); // Course ID from route parameters
+    const { cid } = useParams(); // Course ID from route parameters
 
     const [assignments, setAssignments] = useState<any[]>([]); // State to manage fetched assignments
     const [searchTerm, setSearchTerm] = useState<string>(""); // State for search functionality
@@ -44,7 +44,7 @@ export default function AssignmentControls() {
 
             const newAid = Date.now().toString(); // Generate a unique ID for the assignment
             const newAssignment = {
-                _id: newAid,
+              //  _id: newAid,
                 title: "New Assignment",
                 course: cid,
                 description: "New Assignment Description",

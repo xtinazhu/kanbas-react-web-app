@@ -7,6 +7,20 @@ export default function Users() {
     const [users, setUsers] = useState<any[]>([]);
     const [role, setRole] = useState("");
     const [name, setName] = useState("");
+    const { uid } = useParams();
+
+    const createUser = async () => {
+        const user = await client.createUser({
+            firstName: "New",
+            lastName: `User${users.length + 1}`,
+            username: `newuser${Date.now()}`,
+            password: "password123",
+            email: `email${users.length + 1}@neu.edu`,
+            section: "S101",
+            role: "STUDENT",
+        });
+        setUsers([...users, user]);
+    };
     const filterUsersByName = async (name: string) => {
         setName(name);
         if (name) {
@@ -27,7 +41,7 @@ export default function Users() {
         }
     };
 
-    const { uid } = useParams();
+
     const fetchUsers = async () => {
         const users = await client.findAllUsers();
         setUsers(users);
@@ -36,18 +50,7 @@ export default function Users() {
         fetchUsers();
     }, [uid]);
 
-    const createUser = async () => {
-        const user = await client.createUser({
-            firstName: "New",
-            lastName: `User${users.length + 1}`,
-            username: `newuser${Date.now()}`,
-            password: "password123",
-            email: `email${users.length + 1}@neu.edu`,
-            section: "S101",
-            role: "STUDENT",
-        });
-        setUsers([...users, user]);
-    };
+
 
     return (
         <div>

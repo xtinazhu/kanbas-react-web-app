@@ -3,7 +3,8 @@ import { FaCheck, FaUserCircle } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import * as client from "../../Account/client";
+import * as userClient from "../../Account/client";
+import * as client from "./client";
 import { FaPencil } from "react-icons/fa6";
 export default function PeopleDetails() {
     const [name, setName] = useState("");
@@ -11,29 +12,29 @@ export default function PeopleDetails() {
     const saveUser = async () => {
         const [firstName, lastName] = name.split(" ");
         const updatedUser = { ...user, firstName, lastName };
-        await client.updateUser(updatedUser);
+        await userClient.updateUser(updatedUser);
         setUser(updatedUser);
         setEditing(false);
         navigate(-1);
     };
 
-    const {uid} = useParams();
+    const {cid} = useParams();
     const [user, setUser] = useState<any>({});
     const navigate = useNavigate();
     const deleteUser = async (uid: string) => {
-        await client.deleteUser(uid);
+        await userClient.deleteUser(uid);
         navigate(-1);
     };
 
     const fetchUser = async () => {
-        if (!uid) return;
-        const user = await client.findUserById(uid);
+        if (!cid) return;
+        const users = await client.findUsersForCourse(cid);
         setUser(user);
     };
     useEffect(() => {
-        if (uid) fetchUser();
-    }, [uid]);
-    if (!uid) return null;
+        if (cid) fetchUser();
+    }, [cid]);
+    if (!cid) return null;
     return (
         <div
             className="wd-people-details position-fixed top-0 end-0 bottom-0 bg-white p-4 shadow w-25">
@@ -70,7 +71,7 @@ export default function PeopleDetails() {
             <b>Total Activity:</b> <span
             className="wd-total-activity">{user.totalActivity}</span>
     <hr/>
-    <button onClick={() => deleteUser(uid)}
+    <button onClick={() => deleteUser(user._id)}
             className="btn btn-danger float-end wd-delete"> Delete </button>
     <button onClick={() => navigate(-1)}
             className="btn btn-secondary float-start float-end me-2 wd-cancel"> Cancel </button>

@@ -6,11 +6,7 @@ import * as db from "../Database";
 import * as client from "./client"
 
 export default function Signin() {
-    const [credentials, setCredentials] = useState<{ username: string; password: string }>({
-        username: "",
-        password: "",
-    });
-
+    const [credentials, setCredentials] = useState<any>({});
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const signin = async () => {

@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import AssignmentControls from "./AssignmentControls";
 import {BsGripVertical} from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -5,45 +7,54 @@ import TitleControlButtons from "./TitleControlButtons";
 import { MdOutlineAssignment } from "react-icons/md";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { IoEllipsisVertical } from "react-icons/io5";
-import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch} from "react-redux";
 import{setAssignment, addAssignment,deleteAssignment, updateAssignment} from "./reducer";
 import * as db from "../../Database";
 import {FaTrash} from "react-icons/fa";
-import React, { useEffect, useState } from "react";
-import * as courseClient from "../client";
+
 import * as assignmentsClient from "./client";
 
-
+interface Assignment {
+    _id: string;
+    title: string;
+    description?: string;
+    points: number;
+    dueDate: string;
+    availableFromDate: string;
+    availableUntilDate: string;
+    course: string;
+}
 export default function Assignments() {
     const { cid } = useParams();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
     const[assignmentName, setAssignmentName] = useState("");
     const {assignments} = useSelector((state: any) => state.assignmentReducer);
     const userRole = useSelector((state: any) => state.accountReducer.currentUser?.role);
     const isFaculty = userRole === "FACULTY"; // Check if user has FACULTY role
+    const dispatch = useDispatch();
 
 
-
-    const fetchAssignments = async () => {
-        if (!cid) return;
-        const data = await assignmentsClient.findAssignmentsForCourse(cid);
-        dispatch(setAssignment(data));
-    };
 
     const createAssignmentForCourse = async () => {
-        if (!cid) return;
-        const newAssignment = {
-            title: assignmentName,
-            course: cid,
-            points: 100,
-            due_date: new Date().toISOString(),
-            available_date: new Date().toISOString(),
-        };
-        const assignment = await assignmentsClient.createAssignmentForCourse(cid, newAssignment);
-        dispatch(addAssignment(assignment));
-        setAssignmentName("");
+        if (!cid || !assignmentName.trim()) {
+            alert("Assignment title is required");
+            return;
+        }
+        try {
+            const newAssignment = {
+                title: assignmentName.trim(),
+                course: cid,
+                points: 100,
+                due_date: new Date().toISOString(),
+                available_date: new Date().toISOString(),
+                description: ""
+            };
+            const assignment = await assignmentsClient.createAssignment(cid, newAssignment);
+            dispatch(addAssignment(assignment));
+            setAssignmentName("");
+        } catch (error) {
+            console.error("Failed to create assignment:", error);
+            alert("Failed to create assignment. Please check all required fields.");
+        }
     };
 
     const removeAssignment = async (assignmentId: string) => {
@@ -57,11 +68,23 @@ export default function Assignments() {
         dispatch(updateAssignment(assignment));
     };
 
+    const fetchAssignments = async () => {
+        try {
+            if (!cid) return;
+            const fetchedAssignments = await assignmentsClient.findAssignmentsForCourse(cid);
+            dispatch(setAssignment(fetchedAssignments));
+        } catch (error) {
+            console.error("Failed to fetch assignments:", error);
+        }
+    };
+
     useEffect(() => {
         fetchAssignments();
     }, [cid]);
 
-
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString();
+    };
 
     {/*const assignments = db.assignments.filter(assignment => assignment.course === cid);*/}
 

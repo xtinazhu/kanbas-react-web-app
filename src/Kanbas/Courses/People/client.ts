@@ -1,22 +1,23 @@
 import axios from "axios";
+const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
+const axiosWithCredentials = axios.create({ withCredentials: true });
 
-const API_BASE = process.env.REACT_APP_REMOTE_SERVER;
 
 // Fetch enrollments for a specific course
 export const findEnrollmentsForCourse = async (courseId: string) => {
-    const response = await axios.get(`${API_BASE}/api/courses/${courseId}/enrollments`);
+    const response = await axiosWithCredentials.get(`${REMOTE_SERVER}/api/enrollments`);
     return response.data;
 };
 
 // Fetch all users for a course (enrolled users)
 export const findUsersForCourse = async (courseId: string) => {
-    const response = await axios.get(`${API_BASE}/api/courses/${courseId}/users`);
+    const response = await axiosWithCredentials.get(`${REMOTE_SERVER}/api/courses/${courseId}/users`);
     return response.data;
 };
 
 // Enroll a user in a course
 export const enrollUserInCourse = async (userId: string, courseId: string) => {
-    const response = await axios.post(`${API_BASE}/api/enrollments`, {
+    const response = await axiosWithCredentials.post(`${REMOTE_SERVER}/api/enrollments`, {
         userId,
         courseId,
     });
@@ -25,6 +26,6 @@ export const enrollUserInCourse = async (userId: string, courseId: string) => {
 
 // Unenroll a user from a course
 export const unenrollUserFromCourse = async (enrollmentId: string) => {
-    const response = await axios.delete(`${API_BASE}/api/enrollments/${enrollmentId}`);
+    const response = await axiosWithCredentials.delete(`${REMOTE_SERVER}/api/enrollments/${enrollmentId}`);
     return response.data;
 };
